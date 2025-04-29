@@ -1,5 +1,5 @@
 ---
-name: '📝 Issue Name'
+name: 'Default Poro Car'
 about: 'Erstelle ein neues Issue mit den wichtigsten Informationen'
 title: ""
 labels: ''
