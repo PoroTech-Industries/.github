@@ -1,3 +1,11 @@
+---
+name: '📝 Issue Name'
+about: 'Erstelle ein neues Issue mit den wichtigsten Informationen'
+title: ""
+labels: ''
+assignees: ''
+---
+
 # <!-- `Issue Name` -->
 
 ## Beschreibung
