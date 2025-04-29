@@ -31,14 +31,19 @@ jobs:
             cp -r .github/ISSUE_TEMPLATE $REPO/.github/
             cd $REPO
 
-            #check if default branch exists, else create master
-            main_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
-            if [ -z "$main_branch" ]; then
-              git checkout -b master
-              git push origin master
-              main_branch="master"
+            if [-z "$(git branch -a)" ]; then
+              echo "# $REPO" > README.md
+              git add README.md
+              git commit -m "Initial commit"
+              git branch -M master
+              git push -u origin master
             else
-              echo "Default branch for $REPO is $main_branch"
+              default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+              if [ -z "$default_branch" ]; then
+                echo "Could not determine default branch for $REPO. Assuming 'master'."
+                default_branch="master"
+              fi
+              echo "Default branch for $REPO is $default_branch"
             fi
             
             branch_name="enhancement/update-issue-templates-${{ github.run_id }}"
