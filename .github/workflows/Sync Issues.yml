@@ -30,6 +30,17 @@ jobs:
             mkdir -p $REPO/.github
             cp -r .github/ISSUE_TEMPLATE $REPO/.github/
             cd $REPO
+
+            #check if default branch exists, else create master
+            main_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+            if [ -z "$main_branch" ]; then
+              git checkout -b master
+              git push origin master
+              main_branch="master"
+            else
+              echo "Default branch for $REPO is $main_branch"
+            fi
+            
             branch_name="enhancement/update-issue-templates-${{ github.run_id }}"
             git checkout -b "$branch_name"
             git add .github/ISSUE_TEMPLATE
@@ -38,7 +49,7 @@ jobs:
             else
               git commit -m "Syncing Issue Templates"
               git push origin "$branch_name"
-              gh pr create --base master --head "$branch_name" --title "Sync issue Templates" --body "This PR syncs issue templates as specified through latest push to master on \"https://github.com/PoroTech-Industries/.github\""
+              gh pr create --base "$main_branch" --head "$branch_name" --title "Sync issue Templates" --body "This PR syncs issue templates as specified through latest push to master on \"https://github.com/PoroTech-Industries/.github\""
             fi
             cd .. 
             rm -rf $REPO
