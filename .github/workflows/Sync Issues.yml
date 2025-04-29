@@ -30,14 +30,16 @@ jobs:
             mkdir -p $REPO/.github
             cp -r .github/ISSUE_TEMPLATE $REPO/.github/
             cd $REPO
+            branch_name="enhancement/update-issue-templates-${{ github.run_id }}"
+            git checkout -b "$branch_name"
             git add .github/ISSUE_TEMPLATE
             if git diff --cached --quiet; then
               echo "No changes to commit for $REPO"
             else
               git commit -m "Syncing Issue Templates"
-              git push
+              git push origin "$branch_name"
+              gh pr create --base master --head "$branch_name" --title "Sync issue Templates" --body "This PR syncs issue templates as specified through latest push to master on \"https://github.com/PoroTech-Industries/.github\""
             fi
-            git push
             cd .. 
             rm -rf $REPO
           done
