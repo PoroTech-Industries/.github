@@ -1,0 +1,44 @@
+name: Sync Issue Templates
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/ISSUE_TEMPLATE/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout .github repo
+        uses: actions/checkout@v3
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          #REPOS=("porotech-documentation" "porotech-frontend" "porotech-backend" "porotech-embedded" "porotech-client")
+      - name: sync issue templates
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          REPOS=("test")
+          for REPO in "${REPOS[@]}"; do
+            echo "Synching to $REPO..."
+            git clone --depth 1 https://x-access-token:${GH_TOKEN}@github.com/PoroTech-Industries/$REPO.git
+            mkdir -p $REPO/.github
+            cp -r .github/ISSUE_TEMPLATE $REPO/.github/
+            cd $REPO
+            git add .github/ISSUE_TEMPLATE
+            if git diff --cached --quiet; then
+              echo "No changes to commit for $REPO"
+            else
+              git commit -m "Syncing Issue Templates"
+              git push
+            fi
+            git push
+            cd .. 
+            rm -rf $REPO
+          done
