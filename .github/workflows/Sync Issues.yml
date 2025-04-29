@@ -31,7 +31,7 @@ jobs:
             cp -r .github/ISSUE_TEMPLATE $REPO/.github/
             cd $REPO
 
-            if [-z "$(git branch -a)" ]; then
+            if [ -z "$(git branch -a)" ]; then
               echo "# $REPO" > README.md
               git add README.md
               git commit -m "Initial commit"
@@ -54,7 +54,7 @@ jobs:
             else
               git commit -m "Syncing Issue Templates"
               git push origin "$branch_name"
-              gh pr create --base "$main_branch" --head "$branch_name" --title "Sync issue Templates" --body "This PR syncs issue templates as specified through latest push to master on \"https://github.com/PoroTech-Industries/.github\""
+              gh pr create --base "$default_branch" --head "$branch_name" --title "Sync issue Templates" --body "This PR syncs issue templates as specified through latest push to master on \"https://github.com/PoroTech-Industries/.github\""
             fi
             cd .. 
             rm -rf $REPO
