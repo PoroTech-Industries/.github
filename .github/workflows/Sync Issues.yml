@@ -19,12 +19,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          #REPOS=("porotech-documentation" "porotech-frontend" "porotech-backend" "porotech-embedded" "porotech-client")
       - name: sync issue templates
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          REPOS=("test")
+          REPOS=("porotech-documentation" "porotech-frontend" "porotech-backend" "porotech-embedded" "porotech-client")
           for REPO in "${REPOS[@]}"; do
             echo "Synching to $REPO..."
             git clone --depth 1 https://x-access-token:${GH_TOKEN}@github.com/PoroTech-Industries/$REPO.git
