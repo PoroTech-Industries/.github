@@ -10,7 +10,7 @@ assignees: ''
 
 ## Beschreibung
 
-<!-- kurze beschreibung -->
+<!-- kurze beschreibung des issues -->
 
 ## Definition Of Done
 
