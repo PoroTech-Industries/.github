@@ -1,6 +1,6 @@
 ---
 name: 'Default Poro Car'
-about: 'Erstelle ein neues Issue mit den wichtigsten Informationen'
+about: 'Scrum Issue template'
 title: ""
 labels: ''
 assignees: ''
